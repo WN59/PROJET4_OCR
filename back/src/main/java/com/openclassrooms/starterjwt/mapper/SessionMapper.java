@@ -39,14 +39,17 @@ public abstract class SessionMapper implements EntityMapper<SessionDto, Session>
 
     /**
      * DTO → Entity : reconstruit le teacher et la liste des users.
+     * <p>
+     * Un {@code teacher_id} invalide ou absent lève {@code NotFoundException}
+     * (plus de session créée sans professeur).
      *
      * @param sessionDto données reçues de l'API
      * @return entité Session
      */
     @Mappings({
             @Mapping(source = "description", target = "description"),
-            @Mapping(target = "teacher", expression = "java(sessionDto.getTeacher_id() != null ? this.teacherService.findById(sessionDto.getTeacher_id()).orElse(null) : null)"),
-            @Mapping(target = "users", expression = "java(Optional.ofNullable(sessionDto.getUsers()).orElseGet(Collections::emptyList).stream().map(user_id -> this.userService.findById(user_id).orElse(null)).collect(Collectors.toList()))"),
+            @Mapping(target = "teacher", expression = "java(this.teacherService.getById(sessionDto.getTeacher_id()))"),
+            @Mapping(target = "users", expression = "java(Optional.ofNullable(sessionDto.getUsers()).orElseGet(Collections::emptyList).stream().map(user_id -> this.userService.getById(user_id)).collect(Collectors.toList()))"),
     })
     public abstract Session toEntity(SessionDto sessionDto);
 

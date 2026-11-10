@@ -74,8 +74,9 @@ public class Session {
     private String description;
 
     /** Professeur associé (OneToOne → un teacher ne peut être lié qu'à une session). */
-    @OneToOne
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
+    @OneToOne(optional = false)
+    @NotNull
+    @JoinColumn(name = "teacher_id", referencedColumnName = "id", nullable = false)
     private Teacher teacher;
 
     /** Utilisateurs inscrits à la session. */
