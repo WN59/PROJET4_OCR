@@ -37,6 +37,9 @@ yarn-error.log
 testem.log
 /typings
 
+# Notes personnelles (cours Jest, hors dépôt)
+/docs-perso/
+
 # System files
 .DS_Store
 Thumbs.db
