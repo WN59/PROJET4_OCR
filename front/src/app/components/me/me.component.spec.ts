@@ -2,8 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter, Router } from '@angular/router';
 import { expect, jest } from '@jest/globals';
 import { of } from 'rxjs';
 import { SessionInformation } from 'src/app/core/models/sessionInformation.interface';
@@ -62,13 +61,9 @@ describe('MeComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [
-        MeComponent,
-        MatCardModule,
-        MatIconModule,
-        RouterTestingModule,
-      ],
+      imports: [MeComponent, MatCardModule, MatIconModule],
       providers: [
+        provideRouter([]),
         { provide: SessionService, useValue: sessionService },
         { provide: UserService, useValue: userService },
         { provide: MatSnackBar, useValue: matSnackBar },

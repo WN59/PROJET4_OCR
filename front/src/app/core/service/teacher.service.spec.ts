@@ -1,4 +1,5 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { expect } from '@jest/globals';
 
@@ -19,7 +20,7 @@ describe('TeacherService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
     teacherService = TestBed.inject(TeacherService);
     httpMock = TestBed.inject(HttpTestingController);

@@ -37,8 +37,13 @@ yarn-error.log
 testem.log
 /typings
 
-# Notes personnelles (cours Jest, hors dépôt)
+# Notes personnelles (cours Jest / Cypress, hors dépôt)
 /docs-perso/
+
+# Cypress artifacts
+/cypress/videos
+/cypress/screenshots
+/cypress/downloads
 
 # System files
 .DS_Store

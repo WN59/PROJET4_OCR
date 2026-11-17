@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter, Router } from '@angular/router';
 import { expect, jest } from '@jest/globals';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './core/service/auth.service';
@@ -27,12 +26,9 @@ describe('AppComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [
-        AppComponent,
-        RouterTestingModule,
-        MatToolbarModule,
-      ],
+      imports: [AppComponent, MatToolbarModule],
       providers: [
+        provideRouter([]),
         { provide: SessionService, useValue: sessionService },
         { provide: AuthService, useValue: {} },
       ],

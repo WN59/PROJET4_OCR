@@ -23,7 +23,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 // Import explicite : évite l'erreur TypeScript "Cannot find namespace 'jest'"
 import { expect, jest } from '@jest/globals';
@@ -89,7 +89,6 @@ describe('LoginComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         LoginComponent,
-        BrowserAnimationsModule, // Material a besoin d'animations (même "noop" via Browser)
         MatCardModule,
         MatIconModule,
         MatFormFieldModule,
@@ -97,6 +96,7 @@ describe('LoginComponent', () => {
         ReactiveFormsModule, // formulaire réactif ([formGroup], formControlName)
       ],
       providers: [
+        provideNoopAnimations(), // Material sans animations réelles (plus rapide / stable)
         { provide: AuthService, useValue: authService },
         { provide: SessionService, useValue: sessionService },
         { provide: Router, useValue: router },
