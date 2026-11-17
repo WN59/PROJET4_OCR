@@ -1,43 +1,53 @@
-// ***********************************************
-// This example namespace declaration will help
-// with Intellisense and code completion in your
-// IDE or Text Editor.
-// ***********************************************
-// declare namespace Cypress {
-//   interface Chainable<Subject = any> {
-//     customCommand(param: any): typeof customCommand;
-//   }
-// }
-//
-// function customCommand(param: any): void {
-//   console.warn(param);
-// }
-//
-// NOTE: You can use it like so:
-// Cypress.Commands.add('customCommand', customCommand);
-//
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+/// <reference types="cypress" />
+
+import {
+  credentials,
+  loginResponse,
+  sessionFixture,
+} from './test-data';
+
+export {};
+
+type LoginOptions = {
+  email?: string;
+  password?: string;
+  admin?: boolean;
+  userId?: number;
+};
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      /** Connexion UI avec API interceptée. */
+      login(options?: LoginOptions): Chainable<void>;
+    }
+  }
+}
+
+Cypress.Commands.add('login', (options: LoginOptions = {}) => {
+  const {
+    admin = true,
+    email = admin ? credentials.admin.email : credentials.user.email,
+    password = admin ? credentials.admin.password : credentials.user.password,
+    userId = admin ? 1 : 2,
+  } = options;
+
+  cy.intercept('POST', '**/api/auth/login', {
+    statusCode: 200,
+    body: {
+      ...loginResponse(admin, userId),
+      username: email,
+    },
+  }).as('login');
+
+  cy.intercept('GET', '**/api/session', [sessionFixture]).as('sessions');
+
+  cy.visit('/login');
+  cy.get('input[formControlName="email"]').clear().type(email);
+  cy.get('input[formControlName="password"]').clear().type(password);
+  cy.get('button[type="submit"]').click();
+
+  cy.wait('@login');
+  cy.wait('@sessions');
+  cy.url().should('include', '/sessions');
+});

@@ -6,9 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { expect, jest } from '@jest/globals';
 import { of } from 'rxjs';
 import { Session } from 'src/app/core/models/session.interface';
@@ -82,20 +81,20 @@ describe('FormComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         FormComponent,
-        BrowserAnimationsModule,
         ReactiveFormsModule,
         MatCardModule,
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
-        RouterTestingModule.withRoutes([
+      ],
+      providers: [
+        provideNoopAnimations(),
+        provideRouter([
           { path: 'sessions/create', component: FormComponent },
           { path: 'sessions/update/:id', component: FormComponent },
           { path: 'sessions', component: FormComponent },
         ]),
-      ],
-      providers: [
         { provide: SessionService, useValue: { sessionInformation } },
         { provide: SessionApiService, useValue: sessionApiService },
         { provide: TeacherService, useValue: { all: jest.fn().mockReturnValue(of([mockTeacher])) } },

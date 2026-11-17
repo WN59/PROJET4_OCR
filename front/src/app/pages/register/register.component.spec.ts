@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { expect, jest } from '@jest/globals';
 import { of, throwError } from 'rxjs';
@@ -29,7 +29,6 @@ describe('RegisterComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RegisterComponent,
-        BrowserAnimationsModule,
         ReactiveFormsModule,
         MatCardModule,
         MatFormFieldModule,
@@ -37,6 +36,7 @@ describe('RegisterComponent', () => {
         MatInputModule,
       ],
       providers: [
+        provideNoopAnimations(),
         { provide: AuthService, useValue: authService },
         { provide: Router, useValue: router },
       ],

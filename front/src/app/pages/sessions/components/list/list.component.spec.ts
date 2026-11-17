@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { expect, jest } from '@jest/globals';
 import { of } from 'rxjs';
 import { Session } from 'src/app/core/models/session.interface';
@@ -46,13 +46,9 @@ describe('ListComponent', () => {
     TestBed.resetTestingModule();
 
     await TestBed.configureTestingModule({
-      imports: [
-        ListComponent,
-        RouterTestingModule,
-        MatCardModule,
-        MatIconModule,
-      ],
+      imports: [ListComponent, MatCardModule, MatIconModule],
       providers: [
+        provideRouter([]),
         { provide: SessionService, useValue: { sessionInformation } },
         {
           provide: SessionApiService,

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { expect, jest } from '@jest/globals';
 import { of } from 'rxjs';
 import { Session } from 'src/app/core/models/session.interface';
@@ -80,11 +79,9 @@ describe('DetailComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [
-        DetailComponent,
-        RouterTestingModule,
-      ],
+      imports: [DetailComponent],
       providers: [
+        provideRouter([]),
         { provide: SessionService, useValue: { sessionInformation } },
         { provide: SessionApiService, useValue: sessionApiService },
         { provide: TeacherService, useValue: teacherService },

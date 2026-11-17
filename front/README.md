@@ -1,48 +1,94 @@
-# Yoga
+# Yoga App — Frontend (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.16.
+Front de l’application Yoga App (Angular 19).
 
-## Start the project
+## Prérequis
 
-Git clone:
+- Node.js 18+
+- npm
 
-> git clone https://github.com/OpenClassrooms-Student-Center/P5-Full-Stack-testing
+## Installation
 
-Go inside folder:
+```bash
+cd front
+npm install
+```
 
-> cd yoga
+## Lancer le front
 
-Install dependencies:
+```bash
+npm start
+```
 
-> npm install
+Application : [http://localhost:4200](http://localhost:4200)
 
-Launch Front-end:
+> Le proxy `proxy.conf.json` redirige `/api` vers le backend `http://localhost:8080`.  
+> Pour un usage complet avec données réelles, démarrez aussi le back (voir README racine / `back/README.md`).
 
-> npm run start;
+Compte seed (si back démarré) :
+- email : `yoga@studio.com`
+- password : `test!1234`
 
+---
 
-### Test
+## Tests
 
-#### E2E
+### Jest — unitaires & intégration
 
-Launching e2e test:
+```bash
+npm run test
+npm run test -- --coverage
+npm run test:watch
+```
 
-> npm run e2e
+Rapport de couverture :
+`coverage/jest/lcov-report/index.html`
 
-Generate coverage report (you should launch e2e test before):
+Seuil configuré dans `jest.config.js` : **80 %** minimum (statements, branches, lines, functions).
 
-> npm run e2e:coverage
+### Cypress — e2e
 
-Report is available here:
+Avec le front déjà lancé (`npm start`) :
 
-> front/coverage/lcov-report/index.html
+```bash
+npm run cypress:open
+```
 
-#### Unitary test
+Headless :
 
-Launching test:
+```bash
+npm run cypress:run
+```
 
-> npm run test
+Via Angular CLI (coverage) :
 
-for following change:
+```bash
+npm run e2e
+npm run e2e:ci
+npm run e2e:coverage
+```
 
-> npm run test:watch
+Scénarios couverts (plan de testing) :
+- Login / Register
+- Liste des sessions (admin / non-admin)
+- Détail + suppression session
+- Création / modification session
+- Account + Logout
+
+Les e2e mockent l’API avec `cy.intercept()` (backend optionnel).  
+Données partagées : `cypress/support/test-data.ts` (+ commande `cy.login`).
+
+---
+
+## Scripts npm
+
+| Script | Description |
+|---|---|
+| `npm start` | Lance `ng serve` |
+| `npm run test` | Tests Jest |
+| `npm run test:watch` | Jest en mode watch |
+| `npm run cypress:open` | UI Cypress |
+| `npm run cypress:run` | Cypress headless |
+| `npm run e2e` | E2E via Angular + coverage server |
+| `npm run e2e:ci` | E2E CI headless |
+| `npm run e2e:coverage` | Rapport couverture e2e |
