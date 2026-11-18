@@ -3,6 +3,7 @@ package com.openclassrooms.starterjwt.exception;
 import com.openclassrooms.starterjwt.payload.response.MessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -63,6 +64,17 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<Void> handleUnauthorizedException(UnauthorizedException exception) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    /**
+     * Login échoué (mauvais email / mot de passe).
+     *
+     * @param exception levée par Spring Security à l'authentification
+     * @return HTTP 401
+     */
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Void> handleBadCredentialsException(BadCredentialsException exception) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

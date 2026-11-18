@@ -2,16 +2,15 @@ package com.openclassrooms.starterjwt;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 /**
  * Point d'entrée de l'application Spring Boot Yoga App.
  * <p>
- * {@link EnableJpaAuditing} active le remplissage automatique des champs
- * {@code createdAt} / {@code updatedAt} sur les entités annotées.
+ * L'audit JPA ({@code createdAt}/{@code updatedAt}) est activé dans
+ * {@link com.openclassrooms.starterjwt.configuration.JpaConfig} (séparé
+ * pour ne pas casser les {@code @WebMvcTest}).
  */
 @SpringBootApplication
-@EnableJpaAuditing
 public class SpringBootSecurityJwtApplication {
 
     /**

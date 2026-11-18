@@ -121,6 +121,40 @@ La capture d'écran ci-dessous résume les étapes précédentes :
 ![2-docker-desktop-bdd](pictures/2-docker-desktop-bdd.png)
 
 
+## Tests (JUnit 5 + Mockito + JaCoCo)
+
+### Lancer les tests
+
+```bash
+cd back
+mvn test
+```
+
+Rapport de couverture HTML (généré après `mvn test`) :
+
+`target/site/jacoco/index.html`
+
+Vérifier le seuil OCR (≥ 80 % instructions / branches / lines / methods) :
+
+```bash
+mvn verify
+```
+
+> Les packages `dto` sont exclus de JaCoCo (exigence OCR : ne pas tester les DTO).
+
+### Organisation
+
+| Type | Où | Comment |
+|------|-----|---------|
+| Unitaire (services) | `src/test/java/.../services` | Mockito (`@Mock`, `@InjectMocks`) — **pas de BDD** |
+| Intégration (controllers) | `src/test/java/.../controllers` | `@WebMvcTest` / `@SpringBootTest` + profil `test` (H2) |
+
+Profil de test : `src/test/resources/application-test.yml` (H2 in-memory, Docker Compose désactivé).
+
+Fichier de référence commenté : `TeacherServiceTest` (premier cas `findAll`).
+
+---
+
 ## Ressources
 
 
