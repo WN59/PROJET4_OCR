@@ -3,7 +3,7 @@
 oc:
   app:
     jwtExpirationMs: 86400000
-    jwtSecret: test-secret-key-for-junit-only
+    jwtSecret: kaZQMOmMwzrIWa1lsuMlOdTm04x8c5Pgf3Pu29JkZEqUZwV8UTegHOb1+eN4Sa1aGTk7zTAaqungoev5e5Hg6g==
 
 spring:
   # Pas de Docker Compose pendant les tests
