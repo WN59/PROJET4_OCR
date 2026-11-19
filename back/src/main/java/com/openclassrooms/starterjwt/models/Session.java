@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,7 +36,8 @@ import java.util.List;
  * <p>
  * Relations :
  * <ul>
- *   <li>{@link Teacher} en {@code @OneToOne} via {@code teacher_id} (contrainte UNIQUE actuelle)</li>
+ *   <li>{@link Teacher} en {@code @ManyToOne} via {@code teacher_id}
+ *       (un professeur peut animer plusieurs sessions)</li>
  *   <li>Participants {@link User} en {@code @ManyToMany} via la table {@code PARTICIPATE}</li>
  * </ul>
  */
@@ -73,8 +74,13 @@ public class Session {
     @Column(nullable = false)
     private String description;
 
-    /** Professeur associé (OneToOne → un teacher ne peut être lié qu'à une session). */
-    @OneToOne(optional = false)
+    /**
+     * Professeur associé.
+     * <p>
+     * {@code ManyToOne} (et non OneToOne) : plusieurs sessions peuvent partager
+     * le même teacher, sans contrainte UNIQUE sur {@code teacher_id}.
+     */
+    @ManyToOne(optional = false)
     @NotNull
     @JoinColumn(name = "teacher_id", referencedColumnName = "id", nullable = false)
     private Teacher teacher;

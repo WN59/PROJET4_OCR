@@ -1,0 +1,29 @@
+# Profil utilisé par les tests d'intégration Spring (@SpringBootTest, etc.)
+# Les tests unitaires Mockito purs (TeacherServiceTest…) n'en ont pas besoin.
+oc:
+  app:
+    jwtExpirationMs: 86400000
+    jwtSecret: kaZQMOmMwzrIWa1lsuMlOdTm04x8c5Pgf3Pu29JkZEqUZwV8UTegHOb1+eN4Sa1aGTk7zTAaqungoev5e5Hg6g==
+
+spring:
+  # Pas de Docker Compose pendant les tests
+  docker:
+    compose:
+      enabled: false
+  datasource:
+    url: jdbc:h2:mem:yoga_test;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+logging:
+  level:
+    root: warn
+    com.openclassrooms: info
