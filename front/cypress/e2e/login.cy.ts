@@ -42,4 +42,10 @@ describe('Login (e2e)', () => {
   it('should keep submit disabled when required fields are missing', () => {
     cy.get('button[type="submit"]').should('be.disabled');
   });
+
+  it('should toggle password visibility', () => {
+    cy.get('input[formControlName="password"]').should('have.attr', 'type', 'password');
+    cy.get('button[aria-label="Hide password"]').click();
+    cy.get('input[formControlName="password"]').should('have.attr', 'type', 'text');
+  });
 });

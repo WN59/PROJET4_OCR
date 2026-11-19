@@ -44,6 +44,17 @@ export const userFixture = {
   updatedAt: '2026-01-02T10:00:00.000+00:00',
 };
 
+/** Compte non-admin (le bouton Delete n’apparaît que si admin === false). */
+export const regularUserFixture = {
+  id: 2,
+  email: credentials.user.email,
+  firstName: 'User',
+  lastName: 'Yoga',
+  admin: false,
+  createdAt: '2026-01-01T10:00:00.000+00:00',
+  updatedAt: '2026-01-02T10:00:00.000+00:00',
+};
+
 export const loginResponse = (admin = true, id = 1) => ({
   token: 'fake-jwt-token',
   type: 'Bearer',

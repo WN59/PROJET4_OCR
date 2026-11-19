@@ -66,3 +66,16 @@ describe('Session form (e2e)', () => {
     cy.contains('Session updated !').should('be.visible');
   });
 });
+
+describe('Session form access (e2e)', () => {
+  it('should redirect non-admin away from create form', () => {
+    cy.login({ admin: false });
+    // Navigation SPA (pas de reload) pour garder la session en mémoire
+    cy.window().then((win) => {
+      win.history.pushState({}, '', '/sessions/create');
+      win.dispatchEvent(new PopStateEvent('popstate'));
+    });
+    cy.url().should('include', '/sessions');
+    cy.url().should('not.include', '/create');
+  });
+});

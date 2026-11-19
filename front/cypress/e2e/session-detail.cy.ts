@@ -46,4 +46,35 @@ describe('Session detail (e2e)', () => {
     cy.url().should('include', '/sessions');
     cy.contains('Session deleted !').should('be.visible');
   });
+
+  it('should participate then unParticipate as regular user', () => {
+    const userId = 2;
+    let participants: number[] = [];
+
+    cy.intercept('GET', '**/api/session/1', (req) => {
+      req.reply({ ...sessionFixture, users: participants });
+    }).as('sessionDetail');
+
+    cy.intercept('POST', `**/api/session/1/participate/${userId}`, (req) => {
+      participants = [userId];
+      req.reply({ statusCode: 200, body: null });
+    }).as('participate');
+
+    cy.intercept('DELETE', `**/api/session/1/participate/${userId}`, (req) => {
+      participants = [];
+      req.reply({ statusCode: 200, body: null });
+    }).as('unParticipate');
+
+    cy.login({ admin: false, userId });
+    cy.contains('button', 'Detail').click();
+    cy.wait(['@sessionDetail', '@teacherDetail']);
+
+    cy.contains('button', 'Participate').click();
+    cy.wait('@participate');
+    cy.wait('@sessionDetail'); // fetchSession() après participate
+    cy.contains('button', 'Do not participate').should('be.visible').click();
+    cy.wait('@unParticipate');
+    cy.wait('@sessionDetail'); // fetchSession() après unParticipate
+    cy.contains('button', 'Participate').should('be.visible');
+  });
 });
